@@ -1,0 +1,6 @@
+{
+  "name": "Diwali Prize Demo",
+  "description": "Simulated Diwali prize contest software demonstration with secure demo tickets, simulated payments, cryptographic draw, and tamper-evident audit logs.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

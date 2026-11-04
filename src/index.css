@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@keyframes diya-flicker {
+  0%, 100% {
+    transform: scale(1) rotate(-1deg);
+    opacity: 0.95;
+  }
+  25% {
+    transform: scale(1.08, 0.95) rotate(1.5deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.96, 1.05) rotate(-1deg);
+    opacity: 0.9;
+  }
+  75% {
+    transform: scale(1.05, 0.98) rotate(0.8deg);
+    opacity: 0.98;
+  }
+}
+
+.animate-diya-flicker {
+  animation: diya-flicker 1.6s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+@keyframes gold-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-gold-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(245, 158, 11, 0.1) 0%,
+    rgba(253, 224, 71, 0.35) 50%,
+    rgba(245, 158, 11, 0.1) 100%
+  );
+  background-size: 200% 100%;
+  animation: gold-shimmer 3s infinite linear;
+}
+
+@keyframes slow-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-slow-spin {
+  animation: slow-spin 30s linear infinite;
+}

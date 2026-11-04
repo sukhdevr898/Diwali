@@ -1,0 +1,128 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile document",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "admin"] },
+        "photoURL": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["uid", "email", "role", "createdAt"]
+    },
+    "Admin": {
+      "title": "Admin",
+      "description": "Authorized administrators",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "addedAt": { "type": "string" }
+      },
+      "required": ["email", "addedAt"]
+    },
+    "Campaign": {
+      "title": "Campaign",
+      "description": "Lottery contest campaign",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "ticketPriceRupees": { "type": "number" },
+        "prizeDescription": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "closed", "drawn"] },
+        "totalTicketsSold": { "type": "number" },
+        "drawDate": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["title", "ticketPriceRupees", "prizeDescription", "status", "createdAt"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Lottery ticket order and payment record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "userName": { "type": "string" },
+        "campaignId": { "type": "string" },
+        "quantity": { "type": "number" },
+        "ticketPriceRupees": { "type": "number" },
+        "totalAmountRupees": { "type": "number" },
+        "status": { "type": "string", "enum": ["PENDING_VERIFICATION", "APPROVED", "REJECTED"] },
+        "paymentMethod": { "type": "string", "enum": ["UPI", "BANK_TRANSFER", "CASH"] },
+        "utrNumber": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "verifiedAt": { "type": "string" },
+        "verifiedBy": { "type": "string" }
+      },
+      "required": ["id", "userId", "campaignId", "quantity", "totalAmountRupees", "status", "paymentMethod", "createdAt"]
+    },
+    "Ticket": {
+      "title": "Ticket",
+      "description": "Issued lottery ticket",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "ticketNumber": { "type": "string" },
+        "orderId": { "type": "string" },
+        "userId": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "userName": { "type": "string" },
+        "campaignId": { "type": "string" },
+        "status": { "type": "string", "enum": ["ACTIVE", "CANCELLED", "WINNER"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "ticketNumber", "orderId", "userId", "campaignId", "status", "createdAt"]
+    },
+    "Draw": {
+      "title": "Draw",
+      "description": "Executed lottery draw results",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "campaignId": { "type": "string" },
+        "winningTicketId": { "type": "string" },
+        "winningTicketNumber": { "type": "string" },
+        "winnerUserId": { "type": "string" },
+        "winnerName": { "type": "string" },
+        "prizeDescription": { "type": "string" },
+        "totalEligibleTickets": { "type": "number" },
+        "drawDate": { "type": "string" },
+        "drawnBy": { "type": "string" }
+      },
+      "required": ["id", "campaignId", "winningTicketId", "winningTicketNumber", "winnerUserId", "prizeDescription", "drawDate", "drawnBy"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profile documents"
+    },
+    "/admins/{adminUid}": {
+      "schema": { "$ref": "#/entities/Admin" },
+      "description": "Registry of authorized admin user IDs"
+    },
+    "/campaigns/{campaignId}": {
+      "schema": { "$ref": "#/entities/Campaign" },
+      "description": "Lottery contest campaigns"
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "Lottery orders and payment verifications"
+    },
+    "/tickets/{ticketId}": {
+      "schema": { "$ref": "#/entities/Ticket" },
+      "description": "Issued lottery tickets"
+    },
+    "/draws/{drawId}": {
+      "schema": { "$ref": "#/entities/Draw" },
+      "description": "Executed draw results"
+    }
+  }
+}
