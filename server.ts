@@ -7,7 +7,7 @@ dotenv.config();
 
 const RUPAYEX_TOKEN = process.env.RUPAYEX_API_TOKEN || '6e9066fd1f930cf88521377ee677d8aa';
 const RUPAYEX_BASE_URL = process.env.RUPAYEX_BASE_URL || 'https://rupayex.net/api';
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 async function startServer() {
   const app = express();

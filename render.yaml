@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: mahabumper-lottery
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: RUPAYEX_API_TOKEN
+        value: 6e9066fd1f930cf88521377ee677d8aa
+      - key: RUPAYEX_BASE_URL
+        value: https://rupayex.net/api
