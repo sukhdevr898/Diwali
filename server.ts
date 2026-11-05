@@ -91,6 +91,19 @@ async function startServer() {
     return res.json({ status: 'ok', received: payload });
   });
 
+  // Health Check Endpoints (for Render, Kubernetes, Cloud Run, Uptime monitors)
+  const healthCheck = (_req: express.Request, res: express.Response) => {
+    res.status(200).json({
+      status: 'healthy',
+      uptime: Math.floor(process.uptime()),
+      timestamp: new Date().toISOString(),
+      service: 'mahabumper-lottery-platform',
+    });
+  };
+
+  app.get('/health', healthCheck);
+  app.get('/api/health', healthCheck);
+
   // Mount Vite middleware in dev or static files in production
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({

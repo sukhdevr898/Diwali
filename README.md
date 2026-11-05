@@ -25,7 +25,7 @@ This application is ready for deployment on **Render's Free Web Service Tier**.
    - **Root Directory**: Leave blank (default `./`)
    - **Build Command**: 
      ```bash
-     npm install && npm run build
+     npm install --legacy-peer-deps && npm run build
      ```
    - **Start Command**: 
      ```bash
@@ -110,7 +110,26 @@ The Admin Panel allows verifying payments, checking gateway statuses, and choosi
 
 ---
 
+## 💓 Health Check Endpoints
+
+For cloud monitoring, uptime bots, or Render health probes:
+- `GET /health`
+- `GET /api/health`
+
+**Example Response**:
+```json
+{
+  "status": "healthy",
+  "uptime": 1420,
+  "timestamp": "2026-11-05T09:56:00.000Z",
+  "service": "mahabumper-lottery-platform"
+}
+```
+
+---
+
 ## 💡 Render Free Tier Notes
-- **Cold Starts**: Render free tier instances spin down after 15 minutes of inactivity. The first request after sleep may take ~30–50 seconds to boot up.
+- **Cold Starts**: Render free tier instances spin down after 15 minutes of inactivity. The first request after sleep may take ~30–50 seconds to boot up. Use UptimeRobot or Cron to ping `/health` every 10 minutes to prevent sleep.
+- **Health Check Path**: Set **Health Check Path** to `/health` in Render Service Settings.
 - **Custom Domains**: You can attach your custom domain (e.g., `www.yourlottery.com`) for free in Render under **Settings > Custom Domains**.
 - **SSL / HTTPS**: Automatic free TLS/SSL certificates are provided by Render.
