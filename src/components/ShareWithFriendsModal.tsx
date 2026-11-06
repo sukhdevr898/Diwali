@@ -52,7 +52,7 @@ export const ShareWithFriendsModal: React.FC<ShareWithFriendsModalProps> = ({
   if (!isOpen) return null;
 
   const appUrl = window.location.origin;
-  const shareText = `🎉 मैंने Mahabumper Lucky Draw में ₹49 का टिकट खरीदा है! 1st प्राइज ₹2,50,000 Cash + 10g Gold Coin है।\n\nआप भी अपना लक आज़माओ सिर्फ ₹49 में 👇\n${appUrl}`;
+  const shareText = `🪔 ✨ शुभ धनतेरस और दीपावली की हार्दिक शुभकामनाएँ! ✨ 🪔\nमाँ लक्ष्मी और कुबेर देव आपके घर सुख-समृद्धि लाएं!\n\nमैंने Mahabumper Lucky Draw में ₹49 का लकी टिकट लिया है! 1st प्राइज ₹2,50,000 Cash + 10g 24K शुद्ध सोना है। 84+ कुल विजेता!\n\nआप भी अपना लक आज़माएं सिर्फ ₹49 में 👇\n${appUrl}`;
 
   const handleIncrementShare = () => {
     setShareCount(prev => Math.min(prev + 1, MAX_TARGET));

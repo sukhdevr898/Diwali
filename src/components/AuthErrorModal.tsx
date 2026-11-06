@@ -123,24 +123,38 @@ export const AuthErrorModal: React.FC = () => {
               </div>
 
               {/* Steps Guide */}
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5 text-xs text-slate-700">
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 text-xs text-slate-700">
                 <span className="font-bold text-slate-900 block text-xs uppercase tracking-wider">
-                  Quick 1-Minute Fix:
+                  Authorized Domains कहाँ मिलेगा? (Step-by-Step):
                 </span>
-                <ol className="list-decimal list-inside space-y-1.5 pl-1 leading-relaxed">
-                  <li>
-                    नीचे <strong>"Open Firebase Console Settings"</strong> बटन पर क्लिक करें।
-                  </li>
-                  <li>
-                    पेज पर नीचे <strong>"Authorized domains"</strong> सेक्शन में जाएं।
-                  </li>
-                  <li>
-                    <strong>"Add domain"</strong> बटन दबाएं और <code className="bg-slate-200 px-1 py-0.5 rounded font-mono text-[11px]">{currentHostname}</code> पेस्ट करके <strong>Add</strong> पर क्लिक करें।
-                  </li>
-                  <li>
-                    तुरंत वापस आकर नीचे <strong>"Try Login Again"</strong> दबाएं। लॉगिन सफलतापूर्वक हो जाएगा!
-                  </li>
-                </ol>
+                <div className="space-y-2 text-xs leading-relaxed">
+                  <div className="p-2.5 rounded-xl bg-white border border-slate-200 space-y-1">
+                    <p className="font-semibold text-slate-900">
+                      👉 <strong>तरीका 1 (Direct 1-Click Link):</strong>
+                    </p>
+                    <p>
+                      नीचे दिए गए <strong>"Open Firebase Console Settings"</strong> बटन को दबाएं। यह आपको सीधे <strong>Settings</strong> टैब पर ले जाएगा जहाँ नीचे <strong>"Authorized domains"</strong> की लिस्ट है।
+                    </p>
+                  </div>
+
+                  <div className="p-2.5 rounded-xl bg-white border border-slate-200 space-y-1">
+                    <p className="font-semibold text-slate-900">
+                      👉 <strong>तरीका 2 (अगर आप पहले से Firebase Console में हैं):</strong>
+                    </p>
+                    <ol className="list-decimal list-inside space-y-1 pl-1">
+                      <li>Left Menu में <strong>Build → Authentication</strong> पर जाएं।</li>
+                      <li>
+                        स्क्रीन के ऊपर 5 टैब दिखेंगे: 
+                        <span className="font-mono bg-slate-100 px-1.5 py-0.5 rounded text-[11px] ml-1">
+                          Users | Sign-in method | Templates | Usage | <strong>Settings</strong>
+                        </span>
+                      </li>
+                      <li>सबसे दाईं तरफ वाले <strong>"Settings"</strong> टैब पर क्लिक करें।</li>
+                      <li>अब आपको <strong>"Authorized domains"</strong> सेक्शन दिखेगा।</li>
+                      <li><strong>"Add domain"</strong> बटन दबाएं और <code className="bg-amber-100 text-amber-900 px-1 py-0.5 rounded font-mono font-bold text-[11px]">{currentHostname || 'diwali-e2fq.onrender.com'}</code> पेस्ट करके <strong>Add</strong> पर क्लिक करें।</li>
+                    </ol>
+                  </div>
+                </div>
               </div>
 
               {/* Action Buttons */}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Campaign, Draw } from '../types';
+import { FestiveWishesBanner } from './FestiveWishesBanner';
 import { Sparkles, Gift, Ticket, ArrowRight, ShieldCheck, Zap, Trophy, MessageCircle, Users, Award } from 'lucide-react';
 
 interface CampaignHeroProps {
@@ -21,6 +22,12 @@ export const CampaignHero: React.FC<CampaignHeroProps> = ({
 }) => {
   return (
     <div className="space-y-8">
+      {/* Happy Diwali & Dhanteras Auspicious Wishes & Wins Banner */}
+      <FestiveWishesBanner
+        onOpenPurchase={onOpenPurchase}
+        onOpenShare={onOpenShare}
+      />
+
       {/* Grand Clean White Hero Card */}
       <div className="relative overflow-hidden rounded-3xl bg-white border border-slate-200 shadow-xl p-6 sm:p-10">
         <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />

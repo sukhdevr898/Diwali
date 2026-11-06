@@ -82,7 +82,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               Admin Console Login
             </h3>
             <p className="text-xs text-slate-600">
-              एडमिन पैनल केवल <strong>sukhdevr898@gmail.com</strong> के लिए अधिकृत है। कृपया अपने एडमिन Google खाते से लॉगिन करें।
+              यह पैनल केवल अधिकृत एडमिन (Authorized Administrator) के लिए सुरक्षित है। कृपया अपने अधिकृत एडमिन Google खाते से लॉगिन करें।
             </p>
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-2">
@@ -117,14 +117,14 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             Unauthorized Account
           </h3>
           <p className="text-xs text-slate-600">
-            आप वर्तमान में <strong>{user.email}</strong> से लॉगिन हैं। एडमिन पैनल का एक्सेस केवल <strong>sukhdevr898@gmail.com</strong> को दिया गया है।
+            आप वर्तमान में <strong>{user.email}</strong> से लॉगिन हैं। आपके पास इस एडमिन कंसोल का एक्सेस नहीं है। कृपया अधिकृत एडमिन खाते से साइन इन करें।
           </p>
         </div>
         <button
           onClick={logout}
           className="px-6 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-sm transition-all cursor-pointer"
         >
-          Logout & Sign In as sukhdevr898@gmail.com
+          Logout & Switch to Admin Account
         </button>
       </div>
     );

@@ -141,10 +141,10 @@ function MainApp() {
           <div className="flex items-center gap-2 truncate">
             <Sparkles className="w-4 h-4 text-slate-950 shrink-0" />
             <span className="font-extrabold uppercase tracking-wider">
-              Mahabumper Lucky Draw:
+              🪔 शुभ धनतेरस व दीपावली:
             </span>
             <span className="font-medium truncate">
-              अपना लक आज़माओ! सिर्फ ₹49 में टिकट लो • 1st प्राइज ₹2,50,000 + 10g Gold Coin • सुरक्षित UPI पेमेंट
+              दीपावली व धनतेरस की हार्दिक शुभकामनाएँ! सिर्फ ₹49 में टिकट लो • 1st प्राइज ₹2,50,000 Cash + 10g 24K Gold Coin • 84+ कुल विजेता
             </span>
           </div>
 

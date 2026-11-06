@@ -15,7 +15,7 @@ import {
 import { db, auth, handleFirestoreError, OperationType } from './firebase';
 import { Campaign, Order, Ticket, Draw, UserProfile } from '../types';
 
-export const ADMIN_EMAIL = 'sukhdevr898@gmail.com';
+export const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || 'sukhdevr898@gmail.com';
 export const CAMPAIGN_ID = 'diwali-bumper-2026';
 export const TICKET_RATE_RUPEES = 49;
 
