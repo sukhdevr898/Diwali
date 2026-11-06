@@ -1,5 +1,12 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+import { 
+  getAuth, 
+  GoogleAuthProvider, 
+  signInWithPopup, 
+  signInWithRedirect, 
+  getRedirectResult, 
+  signOut 
+} from 'firebase/auth';
 import { getFirestore, doc, getDocFromServer } from 'firebase/firestore';
 import bundledConfig from '../../firebase-applet-config.json';
 
@@ -19,6 +26,8 @@ const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
+
+// Redirect result handling is processed in AuthContext on mount
 
 export enum OperationType {
   CREATE = 'create',
@@ -88,7 +97,13 @@ export const loginWithGoogle = async () => {
   try {
     const res = await signInWithPopup(auth, googleProvider);
     return res.user;
-  } catch (err) {
+  } catch (err: unknown) {
+    const errorObj = err as { code?: string; message?: string };
+    if (errorObj?.code === 'auth/popup-blocked') {
+      console.warn('Popup blocked, attempting redirect sign-in...');
+      await signInWithRedirect(auth, googleProvider);
+      return null;
+    }
     console.error('Google Sign In failed:', err);
     throw err;
   }
@@ -97,3 +112,5 @@ export const loginWithGoogle = async () => {
 export const logout = async () => {
   await signOut(auth);
 };
+
+export { signInWithRedirect, getRedirectResult };

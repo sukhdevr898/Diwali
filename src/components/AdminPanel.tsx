@@ -47,7 +47,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   tickets,
   draws,
 }) => {
-  const { user, isAdmin, login, logout } = useAuth();
+  const { user, isAdmin, login, loginWithRedirectMode, logout, loading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState<'payments' | 'tickets' | 'draw'>('payments');
   const [paymentFilter, setPaymentFilter] = useState<'ALL' | 'PENDING_VERIFICATION' | 'APPROVED' | 'REJECTED'>('PENDING_VERIFICATION');
   const [orderSearchTerm, setOrderSearchTerm] = useState('');
@@ -85,13 +85,24 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               एडमिन पैनल केवल <strong>sukhdevr898@gmail.com</strong> के लिए अधिकृत है। कृपया अपने एडमिन Google खाते से लॉगिन करें।
             </p>
           </div>
-          <button
-            onClick={login}
-            className="px-6 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-sm transition-all cursor-pointer inline-flex items-center gap-2"
-          >
-            <Shield className="w-4 h-4 text-amber-400" />
-            <span>Sign In with Admin Account (Google)</span>
-          </button>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-2">
+            <button
+              onClick={login}
+              disabled={authLoading}
+              className="w-full sm:w-auto px-6 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-sm transition-all cursor-pointer inline-flex items-center justify-center gap-2 disabled:opacity-50"
+            >
+              {authLoading ? <Loader2 className="w-4 h-4 animate-spin text-amber-400" /> : <Shield className="w-4 h-4 text-amber-400" />}
+              <span>Sign In with Admin Account</span>
+            </button>
+            <button
+              onClick={loginWithRedirectMode}
+              disabled={authLoading}
+              className="w-full sm:w-auto px-4 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition-all cursor-pointer inline-flex items-center justify-center gap-1.5 disabled:opacity-50"
+              title="Use if browser popups are blocked"
+            >
+              <span>Direct Redirect</span>
+            </button>
+          </div>
         </div>
       );
     }

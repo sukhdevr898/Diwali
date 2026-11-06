@@ -45,8 +45,17 @@ This application is ready for deployment on **Render's Free Web Service Tier**.
 
 5. **Deploy**:
    - Click **Create Web Service**.
-   - Render will run `npm install && npm run build` and then start the server with `npm start`.
+   - Render will run `npm install --legacy-peer-deps && npm run build` and then start the server with `npm start`.
    - Once completed, your live URL will be: `https://<your-service-name>.onrender.com`.
+
+6. **CRITICAL: Authorize your Render Domain in Firebase Console (1-Minute Step)**:
+   Google Sign-In requires your domain to be authorized in Firebase:
+   1. Open [Firebase Authentication Settings](https://console.firebase.google.com/project/gen-lang-client-0910909909/authentication/settings).
+   2. Scroll to the **Authorized domains** section.
+   3. Click **Add domain**.
+   4. Enter your Render domain without `https://` (e.g. `your-app-name.onrender.com`).
+   5. Click **Add**.
+   > **Note**: If you don't do this step, clicking "Sign In" will show an authorization warning because Firebase blocks unknown domains by default. Once added, Google Sign-In works immediately!
 
 ---
 

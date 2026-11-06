@@ -24,6 +24,7 @@ import { PrizeBoard } from './components/PrizeBoard';
 import { TestimonialsReviews } from './components/TestimonialsReviews';
 import { RecentBuyerToast } from './components/RecentBuyerToast';
 import { ShareWithFriendsModal } from './components/ShareWithFriendsModal';
+import { AuthErrorModal } from './components/AuthErrorModal';
 import { Sparkles, Gift } from 'lucide-react';
 
 const DEFAULT_CAMPAIGN: Campaign = {
@@ -130,6 +131,9 @@ function MainApp() {
     <div className="relative min-h-screen bg-slate-50 text-slate-900 selection:bg-amber-500 selection:text-slate-950 font-sans flex flex-col overflow-x-hidden">
       {/* Live Recent Buyer Toast Notification */}
       <RecentBuyerToast />
+
+      {/* Authentication Error & Domain Diagnostic Modal */}
+      <AuthErrorModal />
 
       {/* Top Banner */}
       <div className="relative z-30 bg-amber-500 border-b border-amber-600/30 text-slate-950 text-xs py-2 px-4 shadow-xs">
