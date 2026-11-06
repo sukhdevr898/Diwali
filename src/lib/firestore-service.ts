@@ -4,6 +4,7 @@ import {
   getDoc,
   setDoc,
   updateDoc,
+  deleteDoc,
   query,
   where,
   orderBy,
@@ -345,3 +346,138 @@ export function subscribeDraws(callback: (draws: Draw[]) => void): Unsubscribe {
     }
   );
 }
+
+export async function deleteLotteryDraw(
+  drawId: string,
+  winningTicketId?: string,
+  campaignId: string = CAMPAIGN_ID
+): Promise<void> {
+  const batch = writeBatch(db);
+  batch.delete(doc(db, 'draws', drawId));
+
+  if (winningTicketId) {
+    batch.update(doc(db, 'tickets', winningTicketId), {
+      status: 'ACTIVE',
+    });
+  }
+
+  batch.update(doc(db, 'campaigns', campaignId), {
+    status: 'active',
+    updatedAt: new Date().toISOString(),
+  });
+
+  try {
+    await batch.commit();
+  } catch (error) {
+    handleFirestoreError(error, OperationType.DELETE, `draws/${drawId}`);
+  }
+}
+
+export async function updateLotteryDraw(
+  drawId: string,
+  updates: Partial<Draw>
+): Promise<void> {
+  try {
+    const drawRef = doc(db, 'draws', drawId);
+    await updateDoc(drawRef, {
+      ...updates,
+      updatedAt: new Date().toISOString(),
+    });
+  } catch (error) {
+    handleFirestoreError(error, OperationType.UPDATE, `draws/${drawId}`);
+  }
+}
+
+export async function updateCampaignSettings(
+  campaignId: string,
+  updates: Partial<Campaign>
+): Promise<void> {
+  try {
+    const campaignRef = doc(db, 'campaigns', campaignId);
+    await updateDoc(campaignRef, {
+      ...updates,
+      updatedAt: new Date().toISOString(),
+    });
+  } catch (error) {
+    handleFirestoreError(error, OperationType.UPDATE, `campaigns/${campaignId}`);
+  }
+}
+
+export async function createManualTicketOrder(params: {
+  customerName: string;
+  customerMobile: string;
+  quantity: number;
+  notes?: string;
+  ticketPrice?: number;
+}): Promise<{ orderId: string; ticketNumbers: string[] }> {
+  const { customerName, customerMobile, quantity, notes, ticketPrice = TICKET_RATE_RUPEES } = params;
+  const orderId = `ORD_MANUAL_${Date.now()}`;
+  const now = new Date().toISOString();
+  const totalAmount = quantity * ticketPrice;
+  const adminEmail = auth.currentUser?.email || 'admin@mahabumper.com';
+
+  const orderData: Order = {
+    id: orderId,
+    userId: `manual_${Date.now()}`,
+    userEmail: customerMobile ? `${customerMobile}@offline.guest` : 'counter@guest.in',
+    userName: customerName || 'Offline Cash Player',
+    campaignId: CAMPAIGN_ID,
+    quantity,
+    ticketPriceRupees: ticketPrice,
+    totalAmountRupees: totalAmount,
+    status: 'APPROVED',
+    paymentMethod: 'CASH',
+    utrNumber: `CASH_${Date.now().toString().slice(-6)}`,
+    notes: notes || 'Admin issued manual ticket (Cash / VIP)',
+    paymentGateway: 'MANUAL',
+    createdAt: now,
+    verifiedAt: now,
+    verifiedBy: adminEmail,
+  };
+
+  const batch = writeBatch(db);
+  batch.set(doc(db, 'orders', orderId), orderData);
+
+  const ticketNumbers: string[] = [];
+  for (let i = 0; i < quantity; i++) {
+    const rand = Math.floor(100000 + Math.random() * 900000);
+    const ticketNumber = `MB-${rand}`;
+    ticketNumbers.push(ticketNumber);
+
+    const ticketId = `TCK_MANUAL_${Date.now()}_${i}`;
+    const ticketData: Ticket = {
+      id: ticketId,
+      ticketNumber,
+      orderId,
+      userId: orderData.userId,
+      userEmail: orderData.userEmail,
+      userName: orderData.userName,
+      campaignId: CAMPAIGN_ID,
+      status: 'ACTIVE',
+      createdAt: now,
+    };
+
+    batch.set(doc(db, 'tickets', ticketId), ticketData);
+  }
+
+  batch.update(doc(db, 'campaigns', CAMPAIGN_ID), {
+    totalTicketsSold: increment(quantity),
+    updatedAt: now,
+  });
+
+  try {
+    await batch.commit();
+    return { orderId, ticketNumbers };
+  } catch (error) {
+    handleFirestoreError(error, OperationType.WRITE, `orders/${orderId}`);
+  }
+}
+
+export async function deleteOrder(orderId: string): Promise<void> {
+  try {
+    await deleteDoc(doc(db, 'orders', orderId));
+  } catch (error) {
+    handleFirestoreError(error, OperationType.DELETE, `orders/${orderId}`);
+  }
+}
+

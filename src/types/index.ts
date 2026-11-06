@@ -72,4 +72,7 @@ export interface Draw {
   totalEligibleTickets: number;
   drawDate: string;
   drawnBy: string;
+  remarks?: string;
+  claimStatus?: 'PENDING_CLAIM' | 'DISPATCHED' | 'DELIVERED';
+  updatedAt?: string;
 }
